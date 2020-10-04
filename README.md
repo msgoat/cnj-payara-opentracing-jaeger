@@ -2,6 +2,15 @@
 
 This is an extension to the Payara Platform 5.194+ as an alternative implementation of Opentracing.
 
+## Status
+![Build status](https://drone.at41tools.k8s.aws.msgoat.eu/api/badges/msgoat/cnj-payara-opentracing-jaeger/status.svg)
+
+## Release information
+
+Latest version is: `0.8.0`.
+
+A changelog can be found in [changelog.md](changelog.md).
+
 ## Configuration
 
 Configuration can be done with MP Config properties which match to the official Jaeger environment variables.
