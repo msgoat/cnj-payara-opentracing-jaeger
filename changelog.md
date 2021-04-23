@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.0] - 2021-04-22
+### Added
+### Changed
+- performed lift&shift to new AWS CloudTrain environment
+- upgrade to latest version of runtime environments and servers pending
+
 ## [0.8.0] - 2020-10-04
 ### Added
 - first implementation
