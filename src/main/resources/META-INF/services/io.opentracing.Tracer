@@ -1,1 +1,1 @@
-group.msg.at.cloud.payara.opentracing.jaeger.JaegerTracerAdapter
+group.msg.at.cloud.payara.opentracing.jaeger.DefaultJaegerTracerLocator

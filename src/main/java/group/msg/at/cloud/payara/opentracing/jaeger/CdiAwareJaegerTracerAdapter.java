@@ -4,51 +4,69 @@ import io.jaegertracing.Configuration;
 import io.opentracing.*;
 import io.opentracing.propagation.Format;
 import io.opentracing.util.GlobalTracer;
-import org.eclipse.microprofile.config.Config;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
-import javax.enterprise.inject.spi.CDI;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
 import java.util.Optional;
 import java.util.logging.Logger;
 
 /**
  * Adapter that maps an OpenTracing {@link Tracer} to a Jaeger Tracer.
  */
-public class JaegerTracerAdapter implements io.opentracing.Tracer {
+@Named
+@Singleton
+public class CdiAwareJaegerTracerAdapter implements Tracer {
 
-    private static final Logger LOGGER = Logger.getLogger(JaegerTracerAdapter.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(CdiAwareJaegerTracerAdapter.class.getName());
+
     private static final String CONFIG_JAEGER_SERVICE_NAME = "jaeger.service.name";
+
     private static final String CONFIG_JAEGER_AGENT_HOST = "jaeger.agent.host";
+
     private static final String CONFIG_JAEGER_AGENT_PORT = "jaeger.agent.port";
+
     private static final String CONFIG_JAEGER_REPORTER_LOG_SPANS = "jaeger.reporter.log-spans";
+
     private static final String CONFIG_JAEGER_SAMPLER_TYPE = "jaeger.sampler.type";
+
     private static final String CONFIG_JAEGER_SAMPLER_PARAM = "jaeger.sampler.param";
-    private static Tracer adaptee;
 
-    /**
-     * Public constructor that can be called to initialise instance by serviceloader.
-     */
-    public JaegerTracerAdapter() {
-        setUpTracer();
-    }
+    @Inject
+    @ConfigProperty(name = CONFIG_JAEGER_SERVICE_NAME, defaultValue = "jaeger-service")
+    String jaegerServiceName;
 
-    private synchronized void setUpTracer() {
+    @Inject
+    @ConfigProperty(name = CONFIG_JAEGER_AGENT_HOST, defaultValue = "localhost")
+    String jaegerAgentHost;
+
+    @Inject
+    @ConfigProperty(name = CONFIG_JAEGER_AGENT_PORT, defaultValue = "6831")
+    int jaegerAgentPort;
+
+    @Inject
+    @ConfigProperty(name = CONFIG_JAEGER_REPORTER_LOG_SPANS, defaultValue = "false")
+    boolean jaegerLogSpans;
+
+    @Inject
+    @ConfigProperty(name = CONFIG_JAEGER_SAMPLER_TYPE, defaultValue = "const")
+    String jaegerSamplerType;
+
+    @Inject
+    @ConfigProperty(name = CONFIG_JAEGER_SAMPLER_PARAM)
+    Optional<Double> jaegerSamplerParam;
+
+    private Tracer adaptee;
+
+    private synchronized void ensureJaegerTracer() {
         if (adaptee == null) {
-            Config config = CDI.current().select(Config.class).get();
-            String jaegerServiceName = config.getValue(CONFIG_JAEGER_SERVICE_NAME, String.class);
-            String jaegerAgentHost = config.getValue(CONFIG_JAEGER_AGENT_HOST, String.class);
-            int jaegerAgentPort = config.getValue(CONFIG_JAEGER_AGENT_PORT, Integer.class);
-            Optional<Boolean> logSpansValue = config.getOptionalValue(CONFIG_JAEGER_REPORTER_LOG_SPANS, Boolean.class);
-            boolean logSpans = false;
-            if (logSpansValue.isPresent()) {
-                logSpans = logSpansValue.get();
-            }
-            String jaegerSamplerType = config.getValue(CONFIG_JAEGER_SAMPLER_TYPE, String.class);
-            Optional<Double> jaegerSamplerParam = config.getOptionalValue(CONFIG_JAEGER_SAMPLER_PARAM, Double.class);
+            LOGGER.info("registering Jaeger OpenTracing Tracer");
             Configuration.SenderConfiguration senderConfig = Configuration.SenderConfiguration.fromEnv()
                     .withAgentHost(jaegerAgentHost)
                     .withAgentPort(jaegerAgentPort);
             Configuration.ReporterConfiguration reporterConfig = Configuration.ReporterConfiguration.fromEnv()
-                    .withLogSpans(logSpans)
+                    .withLogSpans(jaegerLogSpans)
                     .withSender(senderConfig);
             Configuration.SamplerConfiguration samplerConfig = Configuration.SamplerConfiguration.fromEnv()
                     .withType(jaegerSamplerType);
@@ -74,37 +92,43 @@ public class JaegerTracerAdapter implements io.opentracing.Tracer {
 
     @Override
     public ScopeManager scopeManager() {
+        ensureJaegerTracer();
         return adaptee.scopeManager();
     }
 
     @Override
     public Span activeSpan() {
+        ensureJaegerTracer();
         return adaptee.activeSpan();
     }
-/*
+
     @Override
     public Scope activateSpan(Span span) {
-        return wrappedTracer.activateSpan(span);
+        ensureJaegerTracer();
+        return adaptee.activateSpan(span);
     }
-*/
+
     @Override
     public SpanBuilder buildSpan(String string) {
+        ensureJaegerTracer();
         return adaptee.buildSpan(string);
     }
 
     @Override
     public <C> void inject(SpanContext sc, Format<C> format, C c) {
+        ensureJaegerTracer();
         adaptee.inject(sc, format, c);
     }
 
     @Override
     public <C> SpanContext extract(Format<C> format, C c) {
+        ensureJaegerTracer();
         return adaptee.extract(format, c);
     }
-/*
+
     @Override
     public void close() {
-        wrappedTracer.close();
+        ensureJaegerTracer();
+        adaptee.close();
     }
-*/
 }
