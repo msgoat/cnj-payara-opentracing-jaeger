@@ -11,10 +11,14 @@ Check [changelog](changelog.md) for latest version and release information.
 
 ## Configuration
 
-Configuration can be done with MP Config properties which match to the official Jaeger environment variables.
+Configuration can be done with a subset of the official 
+[Jaeger OpenTracing environment variables](https://github.com/jaegertracing/jaeger-client-java/blob/master/jaeger-core/README.md#configuration-via-environment).
 
-See https://github.com/jaegertracing/jaeger-client-java/blob/master/jaeger-core/README.md#configuration-via-environment 
+Additionally, allows you to switch off the Jaeger OpenTracing extension by setting the boolean environment variable 
+`JAEGER_TRACING_ENABLED` or system property `jaeger.tracing.enabled` to __false__.
 
 ## Using with Payara Server
 
-This must be added as a library to the server itself, not included with a deployed application.
+This JAR must be added as a library to the server itself, and must not be included with a deployed application.
+
+> __Attention__: This library cannot be added using the `customJars` configuration of the `payara-maven-plugin`. You will have to copy this library next to the Payara Micro Uber JAR and add it to Payara using the `--addlibs` command line argument.

@@ -9,7 +9,7 @@
     <description>Payara extension providing Jaeger as an alternate OpenTracing implementation</description>
     <properties>
         <!-- new Maven version management -->
-        <revision>0.8.0</revision>
+        <revision>1.0.0</revision>
         <sha1></sha1>
         <changelist></changelist>
         <!-- common properties -->
@@ -56,17 +56,6 @@
     </dependencyManagement>
     <dependencies>
         <dependency>
-            <groupId>javax.enterprise</groupId>
-            <artifactId>cdi-api</artifactId>
-            <version>2.0.SP1</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.microprofile.config</groupId>
-            <artifactId>microprofile-config-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>io.jaegertracing</groupId>
             <artifactId>jaeger-core</artifactId>
             <version>${jaeger.version}</version>
@@ -75,6 +64,12 @@
             <groupId>io.jaegertracing</groupId>
             <artifactId>jaeger-thrift</artifactId>
             <version>${jaeger.version}</version>
+        </dependency>
+        <!-- Jaeger is using SLF4 so we need to bridge it to Payara's JUL logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-jdk14</artifactId>
+            <version>1.7.28</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

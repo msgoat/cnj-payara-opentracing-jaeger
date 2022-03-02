@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0] - 2022-03-02
+### Added
+### Changed
+- removed all dependencies on CDI since it is not working properly
+- separated configuration from locating the actual OpenTracing adapter
+
 ## [0.8.0] - 2021-04-22
 ### Added
 ### Changed
