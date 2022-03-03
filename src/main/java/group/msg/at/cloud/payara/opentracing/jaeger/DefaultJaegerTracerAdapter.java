@@ -32,7 +32,7 @@ final class DefaultJaegerTracerAdapter implements Tracer {
                 .withSender(senderConfig);
         Configuration.SamplerConfiguration samplerConfig = Configuration.SamplerConfiguration.fromEnv()
                 .withType(configuration.getSamplerType());
-        if ("const".equals(configuration.getSamplerType())) {
+        if (!"remote".equals(configuration.getSamplerType())) {
             samplerConfig = samplerConfig.withParam(configuration.getSamplerParam());
         }
         Configuration tracerConfig = Configuration.fromEnv(configuration.getServiceName())

@@ -55,7 +55,7 @@ interface JaegerTracerConstants {
 
     String ENVVAR_JAEGER_SAMPLER_TYPE = "JAEGER_SAMPLER_TYPE";
 
-    String DEFAULT_JAEGER_SAMPLER_TYPE = "const";
+    String DEFAULT_JAEGER_SAMPLER_TYPE = "remote";
 
     String PROPERTY_JAEGER_SAMPLER_PARAM = "jaeger.sampler.param";
 
