@@ -31,7 +31,7 @@ final class DefaultJaegerTracerConfiguration implements JaegerTracerConfiguratio
 
     @Override
     public boolean isEnabled() {
-        return getConfigurationValue(ENVVAR_JAEGER_TRACING_ENABLED, PROPERTY_JAEGER_TRACING_ENABLED, DEFAULT_JAEGER_TRACING_ENABLED, Boolean.class);
+        return getConfigurationValue(ENVVAR_JAEGER_ENABLED, PROPERTY_JAEGER_ENABLED, DEFAULT_JAEGER_ENABLED, Boolean.class);
     }
 
     @Override

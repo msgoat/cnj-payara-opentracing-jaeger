@@ -15,7 +15,7 @@ public class DefaultJaegerTracingConfigurationTest {
      @Test
      public void configurationProvidesDefaultValuesWhenNoConfigurationIsProvided() {
           JaegerTracerConfiguration underTest = new DefaultJaegerTracerConfiguration();
-          assertEquals(Boolean.parseBoolean(DEFAULT_JAEGER_TRACING_ENABLED), underTest.isEnabled());
+          assertEquals(Boolean.parseBoolean(DEFAULT_JAEGER_ENABLED), underTest.isEnabled());
           assertEquals(DEFAULT_JAEGER_SERVICE_NAME, underTest.getServiceName());
           assertEquals(DEFAULT_JAEGER_AGENT_HOST, underTest.getAgentHost());
           assertEquals(Integer.parseInt(DEFAULT_JAEGER_AGENT_PORT), underTest.getAgentPort());
