@@ -48,7 +48,7 @@ final class DefaultJaegerTracerAdapter implements Tracer {
         msg.append(", logSpans=").append(tracerConfig.getReporter().getLogSpans());
         LOGGER.info(msg.toString());
         Tracer result = tracerConfig.getTracer();
-        GlobalTracer.register(result);
+        GlobalTracer.registerIfAbsent(result);
         return result;
     }
 

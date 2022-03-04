@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.1] - 2022-03-04
+### Added
+### Changed
+- fixed duplicate registration of Jaeger tracer with GlobalTracer which prevented startup of application on Kubernetes
+
 ## [1.0.0] - 2022-03-02
 ### Added
 ### Changed

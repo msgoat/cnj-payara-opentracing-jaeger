@@ -9,7 +9,7 @@
     <description>Payara extension providing Jaeger as an alternate OpenTracing implementation</description>
     <properties>
         <!-- new Maven version management -->
-        <revision>1.0.0</revision>
+        <revision>1.0.1</revision>
         <sha1></sha1>
         <changelist></changelist>
         <!-- common properties -->

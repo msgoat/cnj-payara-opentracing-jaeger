@@ -15,7 +15,7 @@ Configuration can be done with a subset of the official
 [Jaeger OpenTracing environment variables](https://github.com/jaegertracing/jaeger-client-java/blob/master/jaeger-core/README.md#configuration-via-environment).
 
 Additionally, allows you to switch off the Jaeger OpenTracing extension by setting the boolean environment variable 
-`JAEGER_TRACING_ENABLED` or system property `jaeger.tracing.enabled` to __false__.
+`JAEGER_ENABLED` or system property `jaeger.enabled` to __false__.
 
 ## Using with Payara Server
 
